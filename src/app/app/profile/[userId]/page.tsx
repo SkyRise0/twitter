@@ -1,4 +1,5 @@
 "use client"
+import PageTitle from "@/app/components/PageTitle";
 import Post from "@/app/components/Post";
 import { api } from "@/lib/axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -31,7 +32,8 @@ export default function Profile () {
 
     return (
         <>
-            <header className="p-4 border-b-2 border-gray-300">
+            <header className="p-4 border-b-2 border-gray-300 flex flex-col">
+                <h2 className="text-lg font-semibold pb-4">Profile</h2>
                 {user.isLoading ? <p>Loading ...</p> : null}
                 <section className="flex justify-between">
                     <div className="flex flex-col gap-4 justify-center items-center">

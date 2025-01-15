@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, userAgent } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST (request: NextRequest, { params }: { params: { postId: string}}) {
@@ -54,6 +54,19 @@ export async function POST (request: NextRequest, { params }: { params: { postId
                 }
             }
         })
+
+        if (post.userId !== requester.id) {
+            await prisma.notification.create({
+                data: {
+                    user: {
+                        connect: {
+                            id: post.userId
+                        }
+                    },
+                    content: requester.name + " has liked your post!"
+                }
+            })
+        }
 
         return NextResponse.json({ message: "Liked post" }, { status: 200 });
     }

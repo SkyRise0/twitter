@@ -11,6 +11,11 @@ export default function Navigation() {
         queryFn: api.getCurrentUser
     })
 
+    const unreadNotifications = useQuery({
+        queryKey: ["unreadNotifications"],
+        queryFn: api.getUnreadNotifications
+    })
+
     return(
         <nav className="flex flex-col w-full gap-4 pt-6 ml-6">
             <div className="flex flex-col gap-4 pl-6 justify-center">
@@ -23,9 +28,9 @@ export default function Navigation() {
                     <img src={user.data?.image} className="w-10 rounded-full"/>
                     Profile
                 </Link>
-                <Link href={"#"} className="text-xl font-semibold hover:underline grid grid-cols-2 items-center w-1/2">
+                <Link href={"/app/notifications"} className="text-xl font-semibold hover:underline grid grid-cols-2 items-center w-1/2">
                     <img src="https://icones.pro/wp-content/uploads/2022/02/icone-de-cloche-grise.png" className="w-10"/>
-                    Notifications
+                    Notifications ({unreadNotifications.isSuccess ? unreadNotifications.data.length : 0})
                 </Link>
                 <button onClick={() => signOut()} className="text-xl font-semibold hover:underline text-left text-nowrap grid grid-cols-2 items-center justify-center w-1/2">
                     <img src="https://cdn0.iconfinder.com/data/icons/command-buttons/512/Left-512.png" className="w-10"/>

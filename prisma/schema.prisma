@@ -19,8 +19,9 @@ model User {
   followed      Follow[] @relation("followed")
   posts         Post[] @relation()
   likes         Like[]
-  replies       Postreply[] 
-  reply         Reply[]
+  replies       Reply[] 
+  notifications Notification[]
+
 
   Authenticator Authenticator[]
  
@@ -100,7 +101,7 @@ model Post {
   content      String
   created_at   DateTime @default(now())
   likes        Like[]
-  replies      Postreply[] 
+  replies      Reply[] 
 }
 
 model Like {
@@ -109,11 +110,11 @@ model Like {
   postId  String?
   user    User @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId  String
-  reply   Postreply? @relation(references: [id], fields: [replyId], onDelete: Cascade)
+  reply   Reply? @relation(references: [id], fields: [replyId], onDelete: Cascade)
   replyId String?
 }
 
-model Postreply {
+model Reply {
   id      String @id @default(cuid())
   post    Post @relation(references: [id], fields: [postId], onDelete: Cascade)
   postId  String
@@ -122,15 +123,13 @@ model Postreply {
   likes   Like[]
   content String
   created_at DateTime @default(now())
-  replies Reply[]
 }
 
-model Reply {
+model Notification {
   id      String @id @default(cuid())
-  reply   Postreply @relation(references: [id], fields: [replyId], onDelete: Cascade)
-  replyId String
   user    User @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId  String
   content String
+  read    Boolean @default(false)
   created_at DateTime @default(now())
 }

@@ -2,6 +2,7 @@ import { api } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCopyToClipboard } from "usehooks-ts";
 import Link from "next/link";
+import PageTitle from "./PageTitle";
 
 export default function Post({ post }) {
 
@@ -14,10 +15,9 @@ export default function Post({ post }) {
         onSuccess: () => queryClient.invalidateQueries()
     })
 
-    console.log(post)
-
     return (
         <div className="flex flex-col mt-2 gap-2 border-b-2 border-gray-300">
+            <PageTitle pageTitle="Post"/>
             <header className="flex gap-4 items-center p-4">
                 <img src={post.user?.image} className="w-16 rounded-full"/>
                 <div>

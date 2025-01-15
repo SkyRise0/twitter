@@ -34,7 +34,7 @@ export async function POST (request: NextRequest, { params }: { params: { postId
         return NextResponse.json({ message: "You've left empty fields"}, { status: 402})
     }
 
-    await prisma.postreply.create({
+    await prisma.reply.create({
         data: {
             post: {
                 connect: {
@@ -48,7 +48,21 @@ export async function POST (request: NextRequest, { params }: { params: { postId
             },
             content: postData.content
         }
+
     })
+
+    if (post.userId !== requester.id) {
+        await prisma.notification.create({
+            data: {
+                user: {
+                    connect: {
+                        id: post.userId
+                    }
+                },
+                content: requester.name + " has replied to your post!"
+            }
+        })
+    }
 
     return NextResponse.json({ message: "Reply posted!"}, { status: 200});
 

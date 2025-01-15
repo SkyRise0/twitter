@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import Navigation from "../components/Navigation";
+import Search from "../components/Search";
 
 export default async function AppLayout({
     children,
@@ -25,7 +26,7 @@ export default async function AppLayout({
                 {children}
             </div>
             <div>
-                Search Field
+                <Search />
             </div>
         </div>
     );
